@@ -31,7 +31,7 @@ let ft_crypt s fl =
 	Uncipher.ft_uncrypt s (revl fl [])
 
 open Uncipher
-						
+
 let testone s fl1 fl2 =
 	let s' = ft_crypt s fl1 in
 	Printf.printf "Test with \"%s\" => \"%s\" => \"%s\"\n%!" s s'

@@ -27,7 +27,7 @@ let update_state inputowner b =
 	| Owned o when o <> Owner.No					-> v + 1
 	| _												-> v
 	in
-	let helper = function
+	let callback = function
 	| l when List.fold_left sum_owned 0 l = 9		-> inputowner
 	| Owned o0 as o::Owned o1::Owned o2::_
 		 when o0 <> Owner.No && o0 = o1 && o0 = o2	-> o
@@ -48,11 +48,11 @@ let update_state inputowner b =
 	| _												-> b
 	in
 	match b with
-	| Playing l										-> helper l
+	| Playing l										-> callback l
 	| _												-> b
 
 let owner b (x, y) =
-	let helper sb =
+	let callback sb =
 	let cid = x mod 3 + y mod 3 * 3 in
 	match sb with
 	| Playing l			-> List.nth l cid
@@ -60,7 +60,7 @@ let owner b (x, y) =
 	in
 	let sbid = x / 3 + y / 3 * 3 in
 	match b with
-	| Playing l			-> helper (List.nth l sbid)
+	| Playing l			-> callback (List.nth l sbid)
 	| _					-> failwith "Game is over"
 
 (** cl: cells list (Cells must be ordered)
@@ -69,14 +69,14 @@ let owner b (x, y) =
  ** 
 *)
 let getTripletValues cl (a, b, c) =
-	let rec helper cl cli ci =
+	let rec callback cl cli ci =
 	match cl, cli with
 	| [], _ | _, []								-> []
 	| (Owned hdl)::tll, hdli::tlli when hdli = ci
-		-> hdl::(helper tll tlli (ci + 1))
-	| _::tll, _									-> helper tll cli (ci + 1)
+		-> hdl::(callback tll tlli (ci + 1))
+	| _::tll, _									-> callback tll cli (ci + 1)
 	in
-	let vl = helper cl [a; b; c] 0 in
+	let vl = callback cl [a; b; c] 0 in
 	(Utils.nth vl 0, Utils.nth vl 1, Utils.nth vl 2)
 
 let owned_to_playing o =

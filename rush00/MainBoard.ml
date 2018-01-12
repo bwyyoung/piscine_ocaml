@@ -48,12 +48,12 @@ let getLineTriplet b sbid lid =
 	| hd::tl when cid / 3 = lid		-> build_list tl (cid + 1) (hd::l')
 	| hd::tl 						-> build_list tl (cid + 1) l'
 	in
-	let helper = function
+	let callback = function
 	| Board.Playing l				-> build_list l 0 []
 	| _								-> []
 	in
 	match b with
-	| Board.Playing l					-> helper (List.nth l sbid)
+	| Board.Playing l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 
 let getColTriplet b sbid lid =
@@ -63,12 +63,12 @@ let getColTriplet b sbid lid =
 	| hd::tl when cid mod 3 = lid	-> build_coidt tl (cid + 1) (hd::l')
 	| hd::tl 						-> build_coidt tl (cid + 1) l'
 	in
-	let helper = function
+	let callback = function
 	| Board.Playing l				-> build_coidt l 0 []
 	| _								-> []
 	in
 	match b with
-	| Board.Playing l					-> helper (List.nth l sbid)
+	| Board.Playing l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 
 let getDiagTriplet b sbid did =
@@ -81,12 +81,12 @@ let getDiagTriplet b sbid did =
 		-> build_coidt tl (cid + 1) (hd::l')
 	| hd::tl 						-> build_coidt tl (cid + 1) l'
 	in
-	let helper = function
+	let callback = function
 	| Board.Playing l				-> build_coidt l 0 []
 	| _								-> []
 	in
 	match b with
-	| Board.Playing l					-> helper (List.nth l sbid)
+	| Board.Playing l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 												
 let getcell_xy sbid cid =
@@ -94,11 +94,11 @@ let getcell_xy sbid cid =
 
 	
 let getSbTriplet b sbid (v, v', v'') =
-	let helper = function
+	let callback = function
 	| Board.Playing l				->
 		 [List.nth l v; List.nth l v'; List.nth l v'']
 	| _								-> []
 	in
 	match b with
-	| Board.Playing l					-> helper (List.nth l sbid)
+	| Board.Playing l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"

@@ -18,8 +18,8 @@ let rec start_game p1 p2 ((init, a, b, c, deinit) as ui) =
 	let winner = Game.start p1 p2 (a, b, c) in
 	deinit ();
 	print_endline ((Player.string_of_player winner) ^ " win the game");
-	let re = Utils.prompt_int "Restart (0/1)" in
-	if re = 0 then
+	let re = Utils.prompt_string "Restart (0/1)" in
+	if (re = "n" || re = "N") then
 		()
 	else begin
 		start_game p1 p2 ui;
@@ -28,7 +28,7 @@ let rec start_game p1 p2 ((init, a, b, c, deinit) as ui) =
 let () =
 	print_endline "tic-tac-tic-tac-toe";
 	print_endline "-------------------";
-	print_endline "Use 'AI' as player name for AI";
+	print_endline "Use 'IA' as player name for IA";
 	print_endline "-------------------";
 	let p1 = Utils.prompt_line "Player 1" true in
 	let p2 = Utils.prompt_line "Player 2" true in

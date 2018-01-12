@@ -33,14 +33,15 @@ let rec prompt_line prompt no_empty =
 	end else
 		line
 
-let rec prompt_int prompt =
+let rec prompt_string prompt =
 	let line = prompt_line prompt true in
-	if str_is_int line then
-		int_of_string line
+	if (String.length line) > 0  then
+		line
 	else begin
-		print_endline "Bad number. Please retry";
-		prompt_int prompt
+		print_endline "Bad Input. Please retry";
+		prompt_string prompt
 	end
 
 let nth l i =
 	List.nth l i
+

@@ -9,3 +9,30 @@ https://github.com/rizo/awesome-ocaml.git
 https://github.com/a2800276/realworldocaml_epub.git
 
 vogsphere@vogsphere.42.fr:intra/2018/activities/piscine_ocaml_day_03/byoung-w
+
+vogsphere@vogsphere.42.fr:intra/2018/activities/piscine_ocaml_day_04/byoung-w
+
+
+
+	let re = Utils.prompt_string "Restart (n/y)";
+
+	 (*in
+	match re with
+	| "n" -> ()
+	| "N" -> ()
+	| _ -> start_game p1 p2 ui
+	*)
+	(*if ((re = "n")  ) then
+		()
+	else begin
+		start_game p1 p2 ui;
+	end*)
+
+
+		let line = prompt_line prompt true in
+    	if (String.length line) > 0  then
+    		line
+    	else begin
+    		print_endline "Bad Input. Please retry";
+    		prompt_string prompt
+    	end

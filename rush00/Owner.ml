@@ -26,11 +26,11 @@ let char_of_owner = function
 	| P2					-> 'X'
 
 let sumOwners (a, b, c) =
-	let rec helper l ((sa, sb, sc) as t) =
+	let rec callback l ((sa, sb, sc) as t) =
 	match l with
 	| []					-> t
-	| No::tl				-> helper tl (sa + 1, sb, sc)
-	| P1::tl				-> helper tl (sa, sb + 1, sc)
-	| P2::tl				-> helper tl (sa, sb, sc + 1)
+	| No::tl				-> callback tl (sa + 1, sb, sc)
+	| P1::tl				-> callback tl (sa, sb + 1, sc)
+	| P2::tl				-> callback tl (sa, sb, sc + 1)
 	in
-	helper [a; b; c] (0, 0, 0)
+	callback [a; b; c] (0, 0, 0)
