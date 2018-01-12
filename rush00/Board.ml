@@ -10,11 +10,11 @@
 (*                                                                            *)
 (* ************************************************************************** *)
 
-type board = Owned of Cellmaster.t | Playing of board list
+type board = Occupied of Cellmaster.t | Playing of board list
 
-let emptySmall = Playing[Owned Cellmaster.No; Owned Cellmaster.No; Owned Cellmaster.No;
-						 Owned Cellmaster.No; Owned Cellmaster.No; Owned Cellmaster.No;
-						 Owned Cellmaster.No; Owned Cellmaster.No; Owned Cellmaster.No;]
+let emptySmall = Playing[Occupied Cellmaster.No; Occupied Cellmaster.No; Occupied Cellmaster.No;
+						 Occupied Cellmaster.No; Occupied Cellmaster.No; Occupied Cellmaster.No;
+						 Occupied Cellmaster.No; Occupied Cellmaster.No; Occupied Cellmaster.No;]
 
 let emptyMain = Playing[emptySmall; emptySmall; emptySmall;
 						emptySmall; emptySmall; emptySmall;
@@ -25,37 +25,39 @@ let cellmaster index_b (x, y) =
 	let cid = x mod 3 + y mod 3 * 3 in
 	match sb with
 	| Playing l			-> List.nth l cid
-	| Owned o			-> sb
+	| Occupied o			-> sb
 	in
 	let sbid = x / 3 + y / 3 * 3 in
 	match index_b with
 	| Playing l			-> callback (List.nth l sbid)
 	| _					-> failwith "Game is over"
 
-(** Converts index_a 'Playing board' to index_a 'Occupied board' if conditions are met *)
+(** Converts index_a 'Playing board'
+ to index_a 'Occupied board' if conditions
+ are met *)
 let update_state inputowner index_b =
 	let sum_occupied v index_c =
 	match index_c with
-	| Owned o when o <> Cellmaster.No					-> v + 1
+	| Occupied o when o <> Cellmaster.No					-> v + 1
 	| _												-> v
 	in
 	let callback = function
 	| l when List.fold_left sum_occupied 0 l = 9		-> inputowner
-	| Owned o0 as o::Owned o1::Owned o2::_
+	| Occupied o0 as o::Occupied o1::Occupied o2::_
 		 when o0 <> Cellmaster.No && o0 = o1 && o0 = o2	-> o
-	| _::_::_::(Owned o3 as o')::Owned o4::Owned o5::_
+	| _::_::_::(Occupied o3 as o')::Occupied o4::Occupied o5::_
 		 when o3 <> Cellmaster.No && o3 = o4 && o3 = o5	-> o'
-	| _::_::_::_::_::_::(Owned o6 as o'')::Owned o7::Owned o8::_
+	| _::_::_::_::_::_::(Occupied o6 as o'')::Occupied o7::Occupied o8::_
 		 when o6 <> Cellmaster.No && o6 = o7 && o6 = o8	-> o''
-	| Owned o0 as o::_::_::Owned o3::_::_::Owned o6::_
+	| Occupied o0 as o::_::_::Occupied o3::_::_::Occupied o6::_
 		 when o0 <> Cellmaster.No && o0 = o3 && o0 = o6	-> o
-	| _::Owned o1::_::_::(Owned o4 as o')::_::_::Owned o7::_
+	| _::Occupied o1::_::_::(Occupied o4 as o')::_::_::Occupied o7::_
 		 when o1 <> Cellmaster.No && o1 = o4 && o1 = o7	-> o'
-	| _::_::Owned o2::_::_::Owned o5::_::_::(Owned o8 as o'')::_
+	| _::_::Occupied o2::_::_::Occupied o5::_::_::(Occupied o8 as o'')::_
 		 when o2 <> Cellmaster.No && o2 = o5 && o2 = o8	-> o''
-	| Owned o0 as o::_::_::_::Owned o4::_::_::_::Owned o8::_
+	| Occupied o0 as o::_::_::_::Occupied o4::_::_::_::Occupied o8::_
 		 when o0 <> Cellmaster.No && o0 = o4 && o0 = o8	-> o
-	| _::_::Owned o2::_::(Owned o4 as o')::_::Owned o6::_
+	| _::_::Occupied o2::_::(Occupied o4 as o')::_::Occupied o6::_
 		 when o2 <> Cellmaster.No && o2 = o4 && o2 = o6	-> o'
 	| _												-> index_b
 	in
@@ -73,7 +75,7 @@ let getTripletValues cell_list (index_a, index_b, index_c) =
 	let rec callback cell_list triplet_index_list ci =
 	match cell_list, triplet_index_list with
 	| [], _ | _, []								-> []
-	| (Owned hdl)::tll, hdli::tlli when hdli = ci
+	| (Occupied hdl)::tll, hdli::tlli when hdli = ci
 		-> hdl::(callback tll tlli (ci + 1))
 	| _::tll, _									-> callback tll triplet_index_list (ci + 1)
 	in

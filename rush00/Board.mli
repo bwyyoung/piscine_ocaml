@@ -10,7 +10,7 @@
 (*                                                                            *)
 (* ************************************************************************** *)
 
-type board = Owned of Cellmaster.t | Playing of board list
+type board = Occupied of Cellmaster.t | Playing of board list
 val emptySmall : board
 val emptyMain : board
 val update_state : board -> board -> board

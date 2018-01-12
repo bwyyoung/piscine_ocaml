@@ -144,7 +144,7 @@ let choose_random_subposition (subboards_list, subboard_index) =
 	| []										-> subboards_list'
 	(*check if list is combination of board owned, the Cellmaster number, and
 	integer i, ranging towards the last list element. recursively callback last element*)
-	| (Board.Owned Cellmaster.No, i)::triplet_list 			-> callback triplet_list (i::subboards_list')
+	| (Board.Occupied Cellmaster.No, i)::triplet_list 			-> callback triplet_list (i::subboards_list')
 	| _::triplet_list										-> callback triplet_list subboards_list'
 	in
 	let cells = callback (List.combine subboards_list [0; 1; 2; 3; 4; 5; 6; 7; 8]) [] in

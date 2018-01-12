@@ -24,7 +24,7 @@ let rec start_game p1 p2 ((init, a, b, c, deinit) as ui) =
 	end
 
 let rec get_gui () =
-	(Graphics.init, Graphics.get_input, Graphics.print, Graphics.draw, Graphics.deinit)
+	(Graphics.init, Graphics.get_input, Graphics.print, Graphics.render, Graphics.deinit)
 
 let () =
 	print_endline "~~~~~~~~~~~~~~~~tic-tac-tic-tac-toe~~~~~~~~~~~~~~~~~~~~";

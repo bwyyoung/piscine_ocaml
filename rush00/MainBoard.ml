@@ -25,7 +25,7 @@ let inject_input mainboard (x, y) cellmaster =
 	let subboardcellid = x mod 3 + y mod 3 * 3 in
 	let map_cells i c =
 	if i = subboardcellid then
-		Board.Owned cellmaster
+		Board.Occupied cellmaster
 	else
 		c
 	in
@@ -39,7 +39,7 @@ let inject_input mainboard (x, y) cellmaster =
 	match mainboard with
 	| Board.Playing l							->
 	 let mainboard' = Board.Playing (List.mapi map_subboard l) in
-	 update_state (Board.Owned cellmaster) mainboard'
+	 update_state (Board.Occupied cellmaster) mainboard'
 	| _										-> failwith "Already won"
 
 let getLineTriplet mainboard sbid lid =

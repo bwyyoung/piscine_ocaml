@@ -13,5 +13,5 @@
 val init : unit -> unit
 val deinit : unit -> unit
 val get_input : Board.board -> int * int
-val draw : Board.board -> unit
+val render : Board.board -> unit
 val print : string -> unit
