@@ -14,4 +14,4 @@
 type t = No | P1 | P2
 val next : t -> t
 val char_cellmaster : t -> char
-val sumOwners : t * t * t -> int * int * int
+val sumMasters : t * t * t -> int * int * int

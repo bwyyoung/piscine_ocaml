@@ -10,21 +10,21 @@
 (*                                                                            *)
 (* ************************************************************************** *)
 
-(**)
+(*the winner of our game*)
 let win players cellmaster =
 	if (Player.type_of_player players) = cellmaster then
 		players
 	else
 		Player.next players
 
-(**)
+(*Player Input and AI INPUT*)
 let input_player board players (get_input, _, _) =
 	if (Player.string_of_player players) = "AI" then
 		AI.get_input board
 	else
 		get_input board
 
-(**)
+(*Core Game Loop*)
 let rec game_loop board players ((_, print, render) as ui) =
 	print ((Player.string_of_player players) ^ " ("
 		^ (String.make 1 (Player.char_of_player players)) ^ ") play");

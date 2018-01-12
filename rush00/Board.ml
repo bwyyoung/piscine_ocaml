@@ -67,17 +67,17 @@ let update_state inputowner index_b =
 
 
 (** cell_list: cells list (Cells must be ordered)
- ** index_a,index_b,index_c: triplet indexes
- ** triplet_index_list: triplet indexes, as list
+ ** index_a,index_b,index_c: moveset indexes
+ ** moveset_index_list: moveset indexes, as list
  ** 
 *)
 let getTripletValues cell_list (index_a, index_b, index_c) =
-	let rec callback cell_list triplet_index_list ci =
-	match cell_list, triplet_index_list with
+	let rec callback cell_list moveset_index_list ci =
+	match cell_list, moveset_index_list with
 	| [], _ | _, []								-> []
 	| (Occupied hdl)::tll, hdli::tlli when hdli = ci
 		-> hdl::(callback tll tlli (ci + 1))
-	| _::tll, _									-> callback tll triplet_index_list (ci + 1)
+	| _::tll, _									-> callback tll moveset_index_list (ci + 1)
 	in
 	let vl = callback cell_list [index_a; index_b; index_c] 0 in
 	(Utils.nth vl 0, Utils.nth vl 1, Utils.nth vl 2)

@@ -25,7 +25,7 @@ let char_cellmaster = function
 	| P1					-> 'O'
 	| P2					-> 'X'
 
-let sumOwners (a, b, c) =
+let sumMasters (a, b, c) =
 	let rec callback l ((sa, sb, sc) as t) =
 	match l with
 	| []					-> t
