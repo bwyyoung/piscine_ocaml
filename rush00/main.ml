@@ -23,7 +23,7 @@ let rec start_game p1 p2 ((init, a, b, c, destroy) as ui) =
 		start_game p1 p2 ui;
 	end
 
-let rec get_gui () =
+let rec setup_graphics () =
 	(Graphics.init, Graphics.get_input, Graphics.print, Graphics.render, Graphics.destroy)
 
 let () =
@@ -43,4 +43,4 @@ let () =
 	if p1 = p2 then
 		print_endline "Error player 1 and 2 have the same name"
 	else
-		start_game p1 p2 (get_gui ())
+		start_game p1 p2 (setup_graphics ())
