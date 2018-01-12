@@ -189,7 +189,7 @@ let get_best_move subboards_list =
 	in
 	callback list_moves
 
-(** b: board *)
+(** b: board reference*)
 let get_input b =
 	match b with
 	| Board.Field subboards_list		 -> get_best_move subboards_list
