@@ -42,7 +42,7 @@ let inject_input mainboard (x, y) cellmaster =
 	 update_state (Board.Occupied cellmaster) mainboard'
 	| _										-> failwith "Already won"
 
-let getLineTriplet mainboard sbid lid =
+let getLineMoveset mainboard sbid lid =
 	let rec build_list l cid l' =
 	match l with
 	| []							-> l'
@@ -57,7 +57,7 @@ let getLineTriplet mainboard sbid lid =
 	| Board.Playing l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 
-let getColTriplet mainboard sbid lid =
+let getColMoveset mainboard sbid lid =
 	let rec build_coidt l cid l' =
 	match l with
 	| []							-> l'
@@ -72,7 +72,7 @@ let getColTriplet mainboard sbid lid =
 	| Board.Playing l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 
-let getDiagTriplet mainboard sbid did =
+let getDiagMoveset mainboard sbid did =
 	let rec build_coidt l cid l' =
 	match l with
 	| []							-> l'
@@ -94,7 +94,7 @@ let getcell_xy sbid cid =
 	((sbid mod 3) * 3 + cid mod 3, (sbid / 3) * 3 + cid / 3)
 
 	
-let getSbTriplet mainboard sbid (v, v', v'') =
+let getSbMoveset mainboard sbid (v, v', v'') =
 	let callback = function
 	| Board.Playing l				->
 		 [List.nth l v; List.nth l v'; List.nth l v'']

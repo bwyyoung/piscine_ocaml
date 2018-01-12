@@ -15,6 +15,6 @@ val emptySmall : board
 val emptyMain : board
 val update_state : board -> board -> board
 val cellmaster : board -> int * int -> board
-val getTripletValues :
+val getMovesetValues :
 	board list -> int * int * int -> Cellmaster.t * Cellmaster.t * Cellmaster.t
 val occupied_to_playing : board -> board list

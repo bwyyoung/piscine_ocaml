@@ -71,7 +71,7 @@ let update_state inputowner index_b =
  ** moveset_index_list: moveset indexes, as list
  ** 
 *)
-let getTripletValues cell_list (index_a, index_b, index_c) =
+let getMovesetValues cell_list (index_a, index_b, index_c) =
 	let rec callback cell_list moveset_index_list ci =
 	match cell_list, moveset_index_list with
 	| [], _ | _, []								-> []

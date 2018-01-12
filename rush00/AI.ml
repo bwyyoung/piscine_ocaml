@@ -51,21 +51,21 @@ let push_match list_moves list_match_index match_coordinates =
 (*2. Block and intercept player from connecting 3*)
 (*3. if it sees a possible connect 3, do the connection*)
 let foreach_movesets_diag moveset_indexes cell_list subboard_index list_moves =
-	let moveset_values = Board.getTripletValues cell_list moveset_indexes in
-	let (tval_sumout, np1, tval_sum) = Cellmaster.sumMasters moveset_values in
-	if tval_sumout = 1 && np1 = 2 then
+	let moveset_values = Board.getMovesetValues cell_list moveset_indexes in
+	let (totalvalue_sum_output, np1, totalvalue_sum) = Cellmaster.sumMasters moveset_values in
+	if totalvalue_sum_output = 1 && np1 = 2 then
 	push_match list_moves 0 (any_no_coord subboard_index moveset_indexes moveset_values)
 	else if List.length (Utils.nth list_moves 0) = 0 then
 	begin
-		if tval_sumout = 1 && tval_sum = 2 then
+		if totalvalue_sum_output = 1 && totalvalue_sum = 2 then
 		push_match list_moves 1 (any_no_coord subboard_index moveset_indexes moveset_values)
 		else if List.length (Utils.nth list_moves 1) = 0 then
 		begin
-			if tval_sumout = 2 && np1 = 1 then
+			if totalvalue_sum_output = 2 && np1 = 1 then
 			push_match list_moves 2 (any_no_coord subboard_index moveset_indexes moveset_values)
 			else if List.length (Utils.nth list_moves 2) = 0 then
 			begin
-				if tval_sumout = 2 && tval_sum = 1 then
+				if totalvalue_sum_output = 2 && totalvalue_sum = 1 then
 				push_match list_moves 3 (any_no_coord subboard_index moveset_indexes moveset_values)
 				else
 				list_moves
@@ -79,24 +79,24 @@ let foreach_movesets_diag moveset_indexes cell_list subboard_index list_moves =
 	else
 	list_moves
 
-(** moveset_indexes: moveset indexe
- ** moveset_values: moveset values
- ** tval_sumout,tval_sumin,tval_sum: moveset values summed
+(** moveset_indexes: moveset index in array
+ ** moveset_values: moveset value of index in array
+ ** totalvalue_sum_output,totalvalue_sumin,totalvalue_sum: moveset values summed
  ** cell_list: cell list
  ** subboard_index: subboard index
  ** list_moves: list matches *)
 let foreach_movesets moveset_indexes cell_list subboard_index list_moves =
-	let moveset_values = Board.getTripletValues cell_list moveset_indexes in
-	let (tval_sumout, np1, tval_sum) = Cellmaster.sumMasters moveset_values in
-	if tval_sumout = 1 && np1 = 2 then
+	let moveset_values = Board.getMovesetValues cell_list moveset_indexes in
+	let (totalvalue_sum_output, np1, totalvalue_sum) = Cellmaster.sumMasters moveset_values in
+	if totalvalue_sum_output = 1 && np1 = 2 then
 	push_match list_moves 0 (any_no_coord subboard_index moveset_indexes moveset_values)
 	else if List.length (Utils.nth list_moves 0) = 0 then
 	begin
-		if tval_sumout = 1 && tval_sum = 2 then
+		if totalvalue_sum_output = 1 && totalvalue_sum = 2 then
 		push_match list_moves 1 (any_no_coord subboard_index moveset_indexes moveset_values)
 		else if List.length (Utils.nth list_moves 1) = 0 then
 		begin
-			if tval_sumout = 2 && tval_sum = 1 then
+			if totalvalue_sum_output = 2 && totalvalue_sum = 1 then
 			push_match list_moves 4 (any_no_coord subboard_index moveset_indexes moveset_values)
 			else
 			list_moves
@@ -156,7 +156,7 @@ let choose_random_subposition (subboards_list, subboard_index) =
 	let cells = callback (List.combine subboards_list [0; 1; 2; 3; 4; 5; 6; 7; 8]) [] in
 	let len = List.length cells in
 	if len = 0 then
-	failwith "unreachable ! ! !"
+	failwith "out of bounds!"
 	else
 	MainBoard.getcell_xy subboard_index (Utils.nth cells (Random.int len))
 
@@ -171,7 +171,7 @@ let choose_random_position subboards_list =
 	let sb = callback (List.combine subboards_list [0; 1; 2; 3; 4; 5; 6; 7; 8]) [] in
 	let len = List.length sb in
 	if len = 0 then
-	failwith "unreachable ! !"
+	failwith "out of bounds!"
 	else
 	choose_random_subposition (Utils.nth sb (Random.int len))
 
