@@ -11,10 +11,10 @@
 (* ************************************************************************** *)
 
 
-let rec start_game p1 p2 ((init, a, b, c, deinit) as ui) =
+let rec start_game p1 p2 ((init, a, b, c, destroy) as ui) =
 	init ();
 	let winner = Game.start p1 p2 (a, b, c) in
-	deinit ();
+	destroy ();
 	print_endline ((Player.string_of_player winner) ^ " win the game");
 	let re = Utils.prompt_string "Restart (n/y)" in
 	if (re = "n" || re = "N") then
@@ -24,7 +24,7 @@ let rec start_game p1 p2 ((init, a, b, c, deinit) as ui) =
 	end
 
 let rec get_gui () =
-	(Graphics.init, Graphics.get_input, Graphics.print, Graphics.render, Graphics.deinit)
+	(Graphics.init, Graphics.get_input, Graphics.print, Graphics.render, Graphics.destroy)
 
 let () =
 	print_endline "888   d8b        888                   888                    ";

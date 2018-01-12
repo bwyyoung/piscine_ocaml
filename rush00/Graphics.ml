@@ -33,7 +33,7 @@ let init () =
 	ignore (Curses.init_pair 12 20 21);
 	ignore (Curses.init_pair 13 21 20)
 
-let deinit () = ignore (Curses.endwin ())
+let destroy () = ignore (Curses.endwin ())
 
 let rec draw_board pos i b sel =
 	match b with

@@ -11,7 +11,7 @@
 (* ************************************************************************** *)
 
 val init : unit -> unit
-val deinit : unit -> unit
+val destroy : unit -> unit
 val get_input : Board.board -> int * int
 val render : Board.board -> unit
 val print : string -> unit
