@@ -10,29 +10,30 @@
 (*                                                                            *)
 (* ************************************************************************** *)
 
-type board = Occupied of Cellmaster.t | Playing of board list
+type board = Occupied of Cellmaster.t | Field of board list
 
-let emptySmall = Playing[Occupied Cellmaster.EMPTY; Occupied Cellmaster.EMPTY; Occupied Cellmaster.EMPTY;
+
+let miniTicTacToe = Field[Occupied Cellmaster.EMPTY; Occupied Cellmaster.EMPTY; Occupied Cellmaster.EMPTY;
 						 Occupied Cellmaster.EMPTY; Occupied Cellmaster.EMPTY; Occupied Cellmaster.EMPTY;
 						 Occupied Cellmaster.EMPTY; Occupied Cellmaster.EMPTY; Occupied Cellmaster.EMPTY;]
 
-let emptyMain = Playing[emptySmall; emptySmall; emptySmall;
-						emptySmall; emptySmall; emptySmall;
-						emptySmall; emptySmall; emptySmall;]
+let megaTicTacToe = Field[miniTicTacToe; miniTicTacToe; miniTicTacToe;
+						miniTicTacToe; miniTicTacToe; miniTicTacToe;
+						miniTicTacToe; miniTicTacToe; miniTicTacToe;]
 
 let cellmaster index_b (x, y) =
 	let callback sb =
 	let cid = x mod 3 + y mod 3 * 3 in
 	match sb with
-	| Playing l			-> List.nth l cid
+	| Field l			-> List.nth l cid
 	| Occupied o			-> sb
 	in
 	let sbid = x / 3 + y / 3 * 3 in
 	match index_b with
-	| Playing l			-> callback (List.nth l sbid)
+	| Field l			-> callback (List.nth l sbid)
 	| _					-> failwith "Game is over"
 
-(** Converts index_a 'Playing board'
+(** Converts index_a 'Field board'
  to index_a 'Occupied board' if conditions
  are met *)
 let update_state inputowner index_b =
@@ -62,7 +63,7 @@ let update_state inputowner index_b =
 	| _												-> index_b
 	in
 	match index_b with
-	| Playing l										-> callback l
+	| Field l										-> callback l
 	| _												-> index_b
 
 
@@ -84,5 +85,5 @@ let getMovesetValues cell_list (index_a, index_b, index_c) =
 
 let occupied_to_playing o =
 	match o with
-	| Playing (p)		-> p
+	| Field (p)		-> p
 	| _					-> ([o; o; o; o; o; o; o; o; o])

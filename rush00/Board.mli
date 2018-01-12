@@ -10,9 +10,9 @@
 (*                                                                            *)
 (* ************************************************************************** *)
 
-type board = Occupied of Cellmaster.t | Playing of board list
-val emptySmall : board
-val emptyMain : board
+type board = Occupied of Cellmaster.t | Field of board list
+val miniTicTacToe : board
+val megaTicTacToe : board
 val update_state : board -> board -> board
 val cellmaster : board -> int * int -> board
 val getMovesetValues :

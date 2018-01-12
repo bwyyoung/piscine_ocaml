@@ -134,7 +134,7 @@ let check_movesets cell_list subboard_index list_moves =
 		let rec callback subboards_list subboard_index_list list_moves =
 			match subboards_list, subboard_index_list with
 			| _, _ when List.length (List.hd list_moves) > 0		-> list_moves
-			| (Board.Playing cell_list)::moveset_list, hdi::tli				->
+			| (Board.Field cell_list)::moveset_list, hdi::tli				->
 				 callback moveset_list tli (check_movesets cell_list hdi list_moves)
 			| [], _	| _, []									-> list_moves
 			| _::moveset_list, _::tli									->
@@ -165,7 +165,7 @@ let choose_random_position subboards_list =
 	let rec callback subboards_list subboards_list' =
 	match subboards_list with
 	| []										-> subboards_list'
-	| (Board.Playing hd, i)::moveset_list 				-> callback moveset_list ((hd, i)::subboards_list')
+	| (Board.Field hd, i)::moveset_list 				-> callback moveset_list ((hd, i)::subboards_list')
 	| _::moveset_list										-> callback moveset_list subboards_list'
 	in
 	let sb = callback (List.combine subboards_list [0; 1; 2; 3; 4; 5; 6; 7; 8]) [] in
@@ -192,7 +192,7 @@ let get_best_move subboards_list =
 (** b: board *)
 let get_input b =
 	match b with
-	| Board.Playing subboards_list		 -> get_best_move subboards_list
+	| Board.Field subboards_list		 -> get_best_move subboards_list
 	| _									 -> failwith "Game is over"
 
 

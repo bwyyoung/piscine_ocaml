@@ -15,7 +15,7 @@
 let update_state inputowner mainboard =
 	let f = Board.update_state inputowner in
 	match mainboard with
-	| Board.Playing l						-> f (Board.Playing (List.map f l))
+	| Board.Field l						-> f (Board.Field (List.map f l))
 	| _										-> mainboard
 
 (** mainboard: MainBoard;
@@ -32,13 +32,13 @@ let inject_input mainboard (x, y) cellmaster =
 	let subboardid = x / 3 + y / 3 * 3 in
 	let map_subboard i sb =
 	match sb with
-	| Board.Playing l when i = subboardid	->
-		 Board.Playing (List.mapi map_cells l)
+	| Board.Field l when i = subboardid	->
+		 Board.Field (List.mapi map_cells l)
 	| _										-> sb
 	in
 	match mainboard with
-	| Board.Playing l							->
-	 let mainboard' = Board.Playing (List.mapi map_subboard l) in
+	| Board.Field l							->
+	 let mainboard' = Board.Field (List.mapi map_subboard l) in
 	 update_state (Board.Occupied cellmaster) mainboard'
 	| _										-> failwith "Already won"
 
@@ -50,11 +50,11 @@ let getLineMoveset mainboard sbid lid =
 	| hd::tl 						-> build_list tl (cid + 1) l'
 	in
 	let callback = function
-	| Board.Playing l				-> build_list l 0 []
+	| Board.Field l				-> build_list l 0 []
 	| _								-> []
 	in
 	match mainboard with
-	| Board.Playing l					-> callback (List.nth l sbid)
+	| Board.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 
 let getColMoveset mainboard sbid lid =
@@ -65,11 +65,11 @@ let getColMoveset mainboard sbid lid =
 	| hd::tl 						-> build_coidt tl (cid + 1) l'
 	in
 	let callback = function
-	| Board.Playing l				-> build_coidt l 0 []
+	| Board.Field l				-> build_coidt l 0 []
 	| _								-> []
 	in
 	match mainboard with
-	| Board.Playing l					-> callback (List.nth l sbid)
+	| Board.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 
 let getDiagMoveset mainboard sbid did =
@@ -83,11 +83,11 @@ let getDiagMoveset mainboard sbid did =
 	| hd::tl 						-> build_coidt tl (cid + 1) l'
 	in
 	let callback = function
-	| Board.Playing l				-> build_coidt l 0 []
+	| Board.Field l				-> build_coidt l 0 []
 	| _								-> []
 	in
 	match mainboard with
-	| Board.Playing l					-> callback (List.nth l sbid)
+	| Board.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 												
 let getcell_xy sbid cid =
@@ -96,10 +96,10 @@ let getcell_xy sbid cid =
 	
 let getSbMoveset mainboard sbid (v, v', v'') =
 	let callback = function
-	| Board.Playing l				->
+	| Board.Field l				->
 		 [List.nth l v; List.nth l v'; List.nth l v'']
 	| _								-> []
 	in
 	match mainboard with
-	| Board.Playing l					-> callback (List.nth l sbid)
+	| Board.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"

@@ -44,7 +44,7 @@ let rec draw_board pos i b sel =
 
 let rec render_m_board b i sel =
 	match b with
-	| (Board.Playing (head))::tail  ->
+	| (Board.Field (head))::tail  ->
 		draw_board ((i mod 3 * 3), (i / 3 * 3)) 0 head sel;
 		render_m_board tail (i + 1) sel
 	| head::tail	->
@@ -63,7 +63,7 @@ let render_selection b sel =
 	Curses.erase () ;
 	begin
 		match b with
-		| Board.Playing (lst)			-> render_m_board lst 0 sel
+		| Board.Field (lst)			-> render_m_board lst 0 sel
 		| _								-> ()
 	end;
 	render_grid ();
