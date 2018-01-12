@@ -19,9 +19,9 @@ FLAGS := -I $(OBJS_DIR) -I ~/.opam/system/lib/curses
 LIBS := -cclib -L$$HOME/.opam/system/lib/curses
 
 SRCS := \
-		Utils.ml Owner.ml Player.ml \
+		Utils.ml Cellmaster.ml Player.ml \
 		Board.ml MainBoard.ml \
-		Ncurses.ml AI.ml \
+		Graphics.ml AI.ml \
 		Game.ml main.ml
 
 BYT_OBJS := $(addprefix $(OBJS_DIR)/,$(SRCS:.ml=.cmo))

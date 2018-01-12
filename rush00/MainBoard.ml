@@ -10,21 +10,22 @@
 (*                                                                            *)
 (* ************************************************************************** *)
 
-(** b: MainBoard; *)
-let update_state inputowner b =
-	let f = Board.update_state inputowner in
-	match b with
-	| Board.Playing l						-> f (Board.Playing (List.map f l))
-	| _										-> b
 
-(** b: MainBoard;
+(** mainboard: MainBoard *)
+let update_state inputowner mainboard =
+	let f = Board.update_state inputowner in
+	match mainboard with
+	| Board.Playing l						-> f (Board.Playing (List.map f l))
+	| _										-> mainboard
+
+(** mainboard: MainBoard;
  ** (x, y) Coords (0-8);
- ** o: Owner *)
-let inject_input b (x, y) o =
+ ** Cellmaster: Cellmaster of the board *)
+let inject_input mainboard (x, y) cellmaster =
 	let subboardcellid = x mod 3 + y mod 3 * 3 in
 	let map_cells i c =
 	if i = subboardcellid then
-		Board.Owned o
+		Board.Owned cellmaster
 	else
 		c
 	in
@@ -35,13 +36,13 @@ let inject_input b (x, y) o =
 		 Board.Playing (List.mapi map_cells l)
 	| _										-> sb
 	in
-	match b with
+	match mainboard with
 	| Board.Playing l							->
-	 let b' = Board.Playing (List.mapi map_subboard l) in
-	 update_state (Board.Owned o) b'
+	 let mainboard' = Board.Playing (List.mapi map_subboard l) in
+	 update_state (Board.Owned cellmaster) mainboard'
 	| _										-> failwith "Already won"
 
-let getLineTriplet b sbid lid =
+let getLineTriplet mainboard sbid lid =
 	let rec build_list l cid l' =
 	match l with
 	| []							-> l'
@@ -52,11 +53,11 @@ let getLineTriplet b sbid lid =
 	| Board.Playing l				-> build_list l 0 []
 	| _								-> []
 	in
-	match b with
+	match mainboard with
 	| Board.Playing l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 
-let getColTriplet b sbid lid =
+let getColTriplet mainboard sbid lid =
 	let rec build_coidt l cid l' =
 	match l with
 	| []							-> l'
@@ -67,11 +68,11 @@ let getColTriplet b sbid lid =
 	| Board.Playing l				-> build_coidt l 0 []
 	| _								-> []
 	in
-	match b with
+	match mainboard with
 	| Board.Playing l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 
-let getDiagTriplet b sbid did =
+let getDiagTriplet mainboard sbid did =
 	let rec build_coidt l cid l' =
 	match l with
 	| []							-> l'
@@ -85,7 +86,7 @@ let getDiagTriplet b sbid did =
 	| Board.Playing l				-> build_coidt l 0 []
 	| _								-> []
 	in
-	match b with
+	match mainboard with
 	| Board.Playing l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 												
@@ -93,12 +94,12 @@ let getcell_xy sbid cid =
 	((sbid mod 3) * 3 + cid mod 3, (sbid / 3) * 3 + cid / 3)
 
 	
-let getSbTriplet b sbid (v, v', v'') =
+let getSbTriplet mainboard sbid (v, v', v'') =
 	let callback = function
 	| Board.Playing l				->
 		 [List.nth l v; List.nth l v'; List.nth l v'']
 	| _								-> []
 	in
-	match b with
+	match mainboard with
 	| Board.Playing l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"

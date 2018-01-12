@@ -10,18 +10,21 @@
 (*                                                                            *)
 (* ************************************************************************** *)
 
+(**)
+let win players cellmaster =
+	if (Player.type_of_player players) = cellmaster then
+		players
+	else
+		Player.next players
+
+(**)
 let input_player board players (get_input, _, _) =
 	if (Player.string_of_player players) = "AI" then
 		AI.get_input board
 	else
 		get_input board
 
-let win players owner =
-	if (Player.type_of_player players) = owner then
-		players
-	else
-		Player.next players
-
+(**)
 let rec game_loop board players ((_, print, draw) as ui) =
 	print ((Player.string_of_player players) ^ " ("
 		^ (String.make 1 (Player.char_of_player players)) ^ ") play");
@@ -32,6 +35,7 @@ let rec game_loop board players ((_, print, draw) as ui) =
 	| Board.Owned (p)	-> win players p
 	| _					-> game_loop board (Player.next players) ui
 
+(**)
 let start player1 player2 ((_, print, draw) as ui) =
 	print ("Game start with " ^ player1 ^ " and " ^ player2);
 	let board = Board.emptyMain in

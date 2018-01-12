@@ -10,26 +10,25 @@
 (*                                                                            *)
 (* ************************************************************************** *)
 
-let rec get_gui () =
-	(Ncurses.init, Ncurses.get_input, Ncurses.print, Ncurses.draw, Ncurses.deinit)
 
 let rec start_game p1 p2 ((init, a, b, c, deinit) as ui) =
 	init ();
 	let winner = Game.start p1 p2 (a, b, c) in
 	deinit ();
 	print_endline ((Player.string_of_player winner) ^ " win the game");
-	let re = Utils.prompt_string "Restart (0/1)" in
+	let re = Utils.prompt_string "Restart (n/y)" in
 	if (re = "n" || re = "N") then
 		()
 	else begin
 		start_game p1 p2 ui;
 	end
 
+let rec get_gui () =
+	(Graphics.init, Graphics.get_input, Graphics.print, Graphics.draw, Graphics.deinit)
+
 let () =
-	print_endline "tic-tac-tic-tac-toe";
-	print_endline "-------------------";
-	print_endline "Use 'IA' as player name for IA";
-	print_endline "-------------------";
+	print_endline "~~~~~~~~~~~~~~~~tic-tac-tic-tac-toe~~~~~~~~~~~~~~~~~~~~";
+	print_endline "Use 'AI' as player name for AI";
 	let p1 = Utils.prompt_line "Player 1" true in
 	let p2 = Utils.prompt_line "Player 2" true in
 	if p1 = p2 then

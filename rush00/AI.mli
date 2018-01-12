@@ -7,7 +7,7 @@ val empty_moves : 'a list list
 val choose_random_subposition : Board.board list * int -> int * int
 val choose_random_position : Board.board list -> int * int
 val any_no_coord :
-	int -> int * int * int -> Owner.t * Owner.t * Owner.t -> int * int
+	int -> int * int * int -> Cellmaster.t * Cellmaster.t * Cellmaster.t -> int * int
 val push_match : 'a list list -> int -> 'a -> 'a list list
 val foreach_triplets :
 	int * int * int ->

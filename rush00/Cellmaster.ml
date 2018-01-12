@@ -1,7 +1,7 @@
 (* ************************************************************************** *)
 (*                                                                            *)
 (*                                                        :::      ::::::::   *)
-(*   Owner.ml                                           :+:      :+:    :+:   *)
+(*   Cellmaster.ml                                      :+:      :+:    :+:   *)
 (*                                                    +:+ +:+         +:+     *)
 (*   By: byoung-w <byoung-w@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
@@ -10,7 +10,7 @@
 (*                                                                            *)
 (* ************************************************************************** *)
 
-(** No: No owner;
+(** No: No Cellmaster;
  ** P1: Player1;
  ** P2: Player2 *)
 type t = No | P1 | P2
@@ -20,7 +20,7 @@ let next = function
 	| P2			-> P1
 	| No			-> No
 
-let char_of_owner = function
+let char_cellmaster = function
 	| No					-> '.'
 	| P1					-> 'O'
 	| P2					-> 'X'

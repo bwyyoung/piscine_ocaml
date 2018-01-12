@@ -22,15 +22,14 @@ let triplets2 = [(0, 4, 8); (2, 4, 6)]
 let sbindex = [0; 1; 2; 3; 4; 5; 6; 7; 8]
 
 
-
 (** subboard_index: subboard index
  ** index_a,index_b,index_c: triplet indexes unpacked
  ** triplet_values: triplet values*)
 let any_no_coord subboard_index (index_a, index_b, index_c) triplet_values =
 	match triplet_values with
-	| (_, _, Owner.No)			-> MainBoard.getcell_xy subboard_index index_c
-	| (Owner.No, _, _)			-> MainBoard.getcell_xy subboard_index index_a
-	| (_, Owner.No, _)			-> MainBoard.getcell_xy subboard_index index_b
+	| (_, _, Cellmaster.No)			-> MainBoard.getcell_xy subboard_index index_c
+	| (Cellmaster.No, _, _)			-> MainBoard.getcell_xy subboard_index index_a
+	| (_, Cellmaster.No, _)			-> MainBoard.getcell_xy subboard_index index_b
 	| _							-> failwith "Unreachable!!"
 
 (** list_moves: list matches
@@ -49,7 +48,7 @@ let push_match list_moves list_match_index match_coordinates =
 
 let foreach_triplets_diag triplet_indexes cell_list subboard_index list_moves =
 	let triplet_values = Board.getTripletValues cell_list triplet_indexes in
-	let (tval_sumout, np1, tval_sum) = Owner.sumOwners triplet_values in
+	let (tval_sumout, np1, tval_sum) = Cellmaster.sumOwners triplet_values in
 	if tval_sumout = 1 && np1 = 2 then
 	push_match list_moves 0 (any_no_coord subboard_index triplet_indexes triplet_values)
 	else if List.length (Utils.nth list_moves 0) = 0 then
@@ -77,14 +76,14 @@ let foreach_triplets_diag triplet_indexes cell_list subboard_index list_moves =
 	list_moves
 
 (** triplet_indexes: triplet indexes (int ^3)
- ** triplet_values: triplet values (Owner.t ^3)
+ ** triplet_values: triplet values (Cellmaster.t ^3)
  ** tval_sumout,tval_sumin,tval_sum: triplet values summed
  ** cell_list: cell list
  ** subboard_index: subboard index
  ** list_moves: list matches *)
 let foreach_triplets triplet_indexes cell_list subboard_index list_moves =
 	let triplet_values = Board.getTripletValues cell_list triplet_indexes in
-	let (tval_sumout, np1, tval_sum) = Owner.sumOwners triplet_values in
+	let (tval_sumout, np1, tval_sum) = Cellmaster.sumOwners triplet_values in
 	if tval_sumout = 1 && np1 = 2 then
 	push_match list_moves 0 (any_no_coord subboard_index triplet_indexes triplet_values)
 	else if List.length (Utils.nth list_moves 0) = 0 then
@@ -143,9 +142,9 @@ let choose_random_subposition (subboards_list, subboard_index) =
 	let rec callback subboards_list subboards_list' =
 	match subboards_list with
 	| []										-> subboards_list'
-	(*check if list is combination of board owned, the owner number, and
+	(*check if list is combination of board owned, the Cellmaster number, and
 	integer i, ranging towards the last list element. recursively callback last element*)
-	| (Board.Owned Owner.No, i)::triplet_list 			-> callback triplet_list (i::subboards_list')
+	| (Board.Owned Cellmaster.No, i)::triplet_list 			-> callback triplet_list (i::subboards_list')
 	| _::triplet_list										-> callback triplet_list subboards_list'
 	in
 	let cells = callback (List.combine subboards_list [0; 1; 2; 3; 4; 5; 6; 7; 8]) [] in

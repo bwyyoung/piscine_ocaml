@@ -1,7 +1,7 @@
 (* ************************************************************************** *)
 (*                                                                            *)
 (*                                                        :::      ::::::::   *)
-(*   Ncurses.ml                                         :+:      :+:    :+:   *)
+(*   Graphics.ml                                        :+:      :+:    :+:   *)
 (*                                                    +:+ +:+         +:+     *)
 (*   By: byoung-w <byoung-w@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
@@ -38,7 +38,7 @@ let deinit () = ignore (Curses.endwin ())
 let rec draw_board pos i b sel =
 	match b with
 	| (Board.Owned head)::tail		->
-		add_player pos i (Owner.char_of_owner head) sel;
+		add_player pos i (Cellmaster.char_cellmaster head) sel;
 		draw_board pos (i + 1) tail sel
 	| _								-> ()
 
@@ -48,7 +48,7 @@ let rec draw_main_board b i sel =
 		draw_board ((i mod 3 * 3), (i / 3 * 3)) 0 head sel;
 		draw_main_board tail (i + 1) sel
 	| head::tail	->
-		draw_board ((i mod 3 * 3), (i / 3 * 3)) 0 (Board.owned_to_playing head) sel;
+		draw_board ((i mod 3 * 3), (i / 3 * 3)) 0 (Board.occupied_to_playing head) sel;
 		draw_main_board tail (i + 1) sel
 	| _								-> ()
 
@@ -78,7 +78,7 @@ let rec get_sel b ((x, y) as sel) =
 	| 68 when x > 0											-> get_sel b ((x - 1), y)
 	| 66 when y < 8											-> get_sel b (x, (y + 1))
 	| 65 when y > 0											-> get_sel b (x, (y - 1))
-	| 10 when (Board.owner b (x, y)) = Board.Owned Owner.No	-> sel
+	| 10 when (Board.cellmaster b (x, y)) = Board.Owned Cellmaster.No	-> sel
 	| _														-> get_sel b sel
 
 let get_input b = get_sel b (0, 0)
