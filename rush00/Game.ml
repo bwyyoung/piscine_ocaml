@@ -35,7 +35,7 @@ let rec game_loop board players ((_, print, render) as ui) =
 	| Board.Occupied (p)	-> win players p
 	| _					-> game_loop board (Player.next players) ui
 
-(**)
+(*initialise game with player 1 and 2, and start the game loop with the board in mind.*)
 let start player1 player2 ((_, print, render) as ui) =
 	print ("Game start with " ^ player1 ^ " and " ^ player2);
 	let board = Board.emptyMain in

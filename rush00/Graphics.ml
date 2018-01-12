@@ -78,7 +78,7 @@ let rec get_selection b ((x, y) as sel) =
 	| 68 when x > 0											-> get_selection b ((x - 1), y)
 	| 66 when y < 8											-> get_selection b (x, (y + 1))
 	| 65 when y > 0											-> get_selection b (x, (y - 1))
-	| 10 when (Board.cellmaster b (x, y)) = Board.Occupied Cellmaster.No	-> sel
+	| 10 when (Board.cellmaster b (x, y)) = Board.Occupied Cellmaster.EMPTY	-> sel
 	| _														-> get_selection b sel
 
 let get_input b = get_selection b (0, 0)

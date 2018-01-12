@@ -28,9 +28,9 @@ let sbindex = [0; 1; 2; 3; 4; 5; 6; 7; 8]
  ** moveset_values: moveset values*)
 let any_no_coord subboard_index (index_a, index_b, index_c) moveset_values =
 	match moveset_values with
-	| (_, _, Cellmaster.No)			-> MainBoard.getcell_xy subboard_index index_c
-	| (Cellmaster.No, _, _)			-> MainBoard.getcell_xy subboard_index index_a
-	| (_, Cellmaster.No, _)			-> MainBoard.getcell_xy subboard_index index_b
+	| (_, _, Cellmaster.EMPTY)			-> MainBoard.getcell_xy subboard_index index_c
+	| (Cellmaster.EMPTY, _, _)			-> MainBoard.getcell_xy subboard_index index_a
+	| (_, Cellmaster.EMPTY, _)			-> MainBoard.getcell_xy subboard_index index_b
 	| _							-> failwith "Unreachable!!"
 
 (** list_moves: list matches
@@ -150,7 +150,7 @@ let choose_random_subposition (subboards_list, subboard_index) =
 	| []										-> subboards_list'
 	(*check if list is combination of board owned, the Cellmaster number, and
 	integer i, ranging towards the last list element. recursively callback last element*)
-	| (Board.Occupied Cellmaster.No, i)::moveset_list 			-> callback moveset_list (i::subboards_list')
+	| (Board.Occupied Cellmaster.EMPTY, i)::moveset_list 			-> callback moveset_list (i::subboards_list')
 	| _::moveset_list										-> callback moveset_list subboards_list'
 	in
 	let cells = callback (List.combine subboards_list [0; 1; 2; 3; 4; 5; 6; 7; 8]) [] in

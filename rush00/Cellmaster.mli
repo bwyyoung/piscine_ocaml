@@ -11,7 +11,7 @@
 (* ************************************************************************** *)
 
 
-type t = No | P1 | P2
+type t = EMPTY | P1 | P2
 val next : t -> t
 val char_cellmaster : t -> char
 val sumMasters : t * t * t -> int * int * int

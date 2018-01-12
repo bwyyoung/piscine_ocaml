@@ -10,18 +10,18 @@
 (*                                                                            *)
 (* ************************************************************************** *)
 
-(** No: No Cellmaster;
+(** EMPTY: EMPTY Cell;
  ** P1: Player1;
  ** P2: Player2 *)
-type t = No | P1 | P2
+type t = EMPTY | P1 | P2
 
 let next = function
 	| P1			-> P2
 	| P2			-> P1
-	| No			-> No
+	| EMPTY			-> EMPTY
 
 let char_cellmaster = function
-	| No					-> '.'
+	| EMPTY					-> '.'
 	| P1					-> 'O'
 	| P2					-> 'X'
 
@@ -29,7 +29,7 @@ let sumMasters (a, b, c) =
 	let rec callback l ((sa, sb, sc) as t) =
 	match l with
 	| []					-> t
-	| No::tl				-> callback tl (sa + 1, sb, sc)
+	| EMPTY::tl				-> callback tl (sa + 1, sb, sc)
 	| P1::tl				-> callback tl (sa, sb + 1, sc)
 	| P2::tl				-> callback tl (sa, sb, sc + 1)
 	in

@@ -10,7 +10,7 @@
 (*                                                                            *)
 (* ************************************************************************** *)
 
-(**)
+(*game start*)
 val start : string -> string
 		-> (Board.board -> int * int) * (string -> unit) * (Board.board -> 'a)
 		-> Player.t
