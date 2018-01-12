@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+*.cmi
+*.cmx
+*.o
+*.out
+*.xml
+*.iml
+ocaml-ide
+obj
+cipher
+btree
+gardening
+ft_graphics
