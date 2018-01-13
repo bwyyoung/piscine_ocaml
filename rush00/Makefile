@@ -15,7 +15,7 @@ NAME := tic-tac-tic-tac-toe
 DIR_OBJ := bin
 SRCS := \
 		Tools.ml Cellmaster.ml Player.ml \
-		Board.ml MegaBoard.ml \
+		MiniBoard.ml MegaBoard.ml \
 		Graphics.ml AI.ml \
 		Game.ml main.ml
 DIR_SRC := ./

@@ -51,7 +51,7 @@ let push_match list_moves list_match_index match_coordinates =
 (*2. Block and intercept player from connecting 3*)
 (*3. if it sees a possible connect 3, do the connection*)
 let foreach_movesets_diag moveset_indexes cell_list subboard_index list_moves =
-	let moveset_values = Board.getMovesetValues cell_list moveset_indexes in
+	let moveset_values = MiniBoard.getMovesetValues cell_list moveset_indexes in
 	let (totalvalue_sum_output, np1, totalvalue_sum) = Cellmaster.sumMasters moveset_values in
 	if totalvalue_sum_output = 1 && np1 = 2 then
 	push_match list_moves 0 (any_no_coord subboard_index moveset_indexes moveset_values)
@@ -86,7 +86,7 @@ let foreach_movesets_diag moveset_indexes cell_list subboard_index list_moves =
  ** subboard_index: subboard index
  ** list_moves: list matches *)
 let foreach_movesets moveset_indexes cell_list subboard_index list_moves =
-	let moveset_values = Board.getMovesetValues cell_list moveset_indexes in
+	let moveset_values = MiniBoard.getMovesetValues cell_list moveset_indexes in
 	let (totalvalue_sum_output, np1, totalvalue_sum) = Cellmaster.sumMasters moveset_values in
 	if totalvalue_sum_output = 1 && np1 = 2 then
 	push_match list_moves 0 (any_no_coord subboard_index moveset_indexes moveset_values)
@@ -134,7 +134,7 @@ let check_movesets cell_list subboard_index list_moves =
 		let rec callback subboards_list subboard_index_list list_moves =
 			match subboards_list, subboard_index_list with
 			| _, _ when List.length (List.hd list_moves) > 0		-> list_moves
-			| (Board.Field cell_list)::moveset_list, hdi::tli				->
+			| (MiniBoard.Field cell_list)::moveset_list, hdi::tli				->
 				 callback moveset_list tli (check_movesets cell_list hdi list_moves)
 			| [], _	| _, []									-> list_moves
 			| _::moveset_list, _::tli									->
@@ -150,7 +150,7 @@ let choose_random_subposition (subboards_list, subboard_index) =
 	| []										-> subboards_list'
 	(*check if list is combination of board owned, the Cellmaster number, and
 	integer i, ranging towards the last list element. recursively callback last element*)
-	| (Board.Occupied Cellmaster.EMPTY, i)::moveset_list 			-> callback moveset_list (i::subboards_list')
+	| (MiniBoard.Occupied Cellmaster.EMPTY, i)::moveset_list 			-> callback moveset_list (i::subboards_list')
 	| _::moveset_list										-> callback moveset_list subboards_list'
 	in
 	let cells = callback (List.combine subboards_list [0; 1; 2; 3; 4; 5; 6; 7; 8]) [] in
@@ -165,7 +165,7 @@ let choose_random_position subboards_list =
 	let rec callback subboards_list subboards_list' =
 	match subboards_list with
 	| []										-> subboards_list'
-	| (Board.Field hd, i)::moveset_list 				-> callback moveset_list ((hd, i)::subboards_list')
+	| (MiniBoard.Field hd, i)::moveset_list 				-> callback moveset_list ((hd, i)::subboards_list')
 	| _::moveset_list										-> callback moveset_list subboards_list'
 	in
 	let sb = callback (List.combine subboards_list [0; 1; 2; 3; 4; 5; 6; 7; 8]) [] in
@@ -192,7 +192,7 @@ let get_best_move subboards_list =
 (** b: board reference*)
 let get_input b =
 	match b with
-	| Board.Field subboards_list		 -> get_best_move subboards_list
+	| MiniBoard.Field subboards_list		 -> get_best_move subboards_list
 	| _									 -> failwith "Game is over"
 
 

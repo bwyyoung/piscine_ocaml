@@ -12,6 +12,6 @@
 
 val init : unit -> unit
 val destroy : unit -> unit
-val get_input : Board.board -> int * int
-val render : Board.board -> unit
+val get_input : MiniBoard.board -> int * int
+val render : MiniBoard.board -> unit
 val print : string -> unit

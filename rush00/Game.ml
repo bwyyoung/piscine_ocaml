@@ -32,12 +32,12 @@ let rec game_loop board players ((_, print, render) as ui) =
 	let board = MegaBoard.inject_input board move (Player.type_of_player players) in
 	render board;
 	match board with
-	| Board.Occupied (p)	-> win players p
+	| MiniBoard.Occupied (p)	-> win players p
 	| _					-> game_loop board (Player.next players) ui
 
 (*initialise game with player 1 and 2, and start the game loop with the board in mind.*)
 let start player1 player2 ((_, print, render) as ui) =
 	print ("Game start with " ^ player1 ^ " and " ^ player2);
-	let board = Board.megaTicTacToe in
+	let board = MiniBoard.megaTicTacToe in
 	render board;
 	game_loop board (Player.new_players player1 player2) ui

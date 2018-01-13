@@ -12,5 +12,5 @@
 
 (*game start*)
 val start : string -> string
-		-> (Board.board -> int * int) * (string -> unit) * (Board.board -> 'a)
+		-> (MiniBoard.board -> int * int) * (string -> unit) * (MiniBoard.board -> 'a)
 		-> Player.t

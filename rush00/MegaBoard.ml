@@ -13,9 +13,9 @@
 
 (** mainboard: MegaBoard *)
 let update_state inputowner mainboard =
-	let f = Board.update_state inputowner in
+	let f = MiniBoard.update_state inputowner in
 	match mainboard with
-	| Board.Field l						-> f (Board.Field (List.map f l))
+	| MiniBoard.Field l						-> f (MiniBoard.Field (List.map f l))
 	| _										-> mainboard
 
 (** mainboard: MegaBoard;
@@ -25,21 +25,21 @@ let inject_input mainboard (x, y) cellmaster =
 	let subboardcellid = x mod 3 + y mod 3 * 3 in
 	let map_cells i c =
 	if i = subboardcellid then
-		Board.Occupied cellmaster
+		MiniBoard.Occupied cellmaster
 	else
 		c
 	in
 	let subboardid = x / 3 + y / 3 * 3 in
 	let map_subboard i sb =
 	match sb with
-	| Board.Field l when i = subboardid	->
-		 Board.Field (List.mapi map_cells l)
+	| MiniBoard.Field l when i = subboardid	->
+		 MiniBoard.Field (List.mapi map_cells l)
 	| _										-> sb
 	in
 	match mainboard with
-	| Board.Field l							->
-	 let mainboard' = Board.Field (List.mapi map_subboard l) in
-	 update_state (Board.Occupied cellmaster) mainboard'
+	| MiniBoard.Field l							->
+	 let mainboard' = MiniBoard.Field (List.mapi map_subboard l) in
+	 update_state (MiniBoard.Occupied cellmaster) mainboard'
 	| _										-> failwith "Already won"
 
 let getLineMoveset mainboard sbid lid =
@@ -50,11 +50,11 @@ let getLineMoveset mainboard sbid lid =
 	| hd::tl 						-> build_list tl (cid + 1) l'
 	in
 	let callback = function
-	| Board.Field l				-> build_list l 0 []
+	| MiniBoard.Field l				-> build_list l 0 []
 	| _								-> []
 	in
 	match mainboard with
-	| Board.Field l					-> callback (List.nth l sbid)
+	| MiniBoard.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 
 let getColMoveset mainboard sbid lid =
@@ -65,11 +65,11 @@ let getColMoveset mainboard sbid lid =
 	| hd::tl 						-> build_coidt tl (cid + 1) l'
 	in
 	let callback = function
-	| Board.Field l				-> build_coidt l 0 []
+	| MiniBoard.Field l				-> build_coidt l 0 []
 	| _								-> []
 	in
 	match mainboard with
-	| Board.Field l					-> callback (List.nth l sbid)
+	| MiniBoard.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 
 let getDiagMoveset mainboard sbid did =
@@ -83,11 +83,11 @@ let getDiagMoveset mainboard sbid did =
 	| hd::tl 						-> build_coidt tl (cid + 1) l'
 	in
 	let callback = function
-	| Board.Field l				-> build_coidt l 0 []
+	| MiniBoard.Field l				-> build_coidt l 0 []
 	| _								-> []
 	in
 	match mainboard with
-	| Board.Field l					-> callback (List.nth l sbid)
+	| MiniBoard.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 												
 let getcell_xy sbid cid =
@@ -96,10 +96,10 @@ let getcell_xy sbid cid =
 	
 let getSbMoveset mainboard sbid (v, v', v'') =
 	let callback = function
-	| Board.Field l				->
+	| MiniBoard.Field l				->
 		 [List.nth l v; List.nth l v'; List.nth l v'']
 	| _								-> []
 	in
 	match mainboard with
-	| Board.Field l					-> callback (List.nth l sbid)
+	| MiniBoard.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"

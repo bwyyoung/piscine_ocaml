@@ -39,18 +39,18 @@ let destroy () = ignore (Curses.endwin ())
 
 let rec draw_board pos i b sel =
 	match b with
-	| (Board.Occupied head)::tail		->
+	| (MiniBoard.Occupied head)::tail		->
 		add_player pos i (Cellmaster.char_cellmaster head) sel;
 		draw_board pos (i + 1) tail sel
 	| _								-> ()
 
 let rec render_m_board b i sel =
 	match b with
-	| (Board.Field (head))::tail  ->
+	| (MiniBoard.Field (head))::tail  ->
 		draw_board ((i mod 3 * 3), (i / 3 * 3)) 0 head sel;
 		render_m_board tail (i + 1) sel
 	| head::tail	->
-		draw_board ((i mod 3 * 3), (i / 3 * 3)) 0 (Board.occupied_to_playing head) sel;
+		draw_board ((i mod 3 * 3), (i / 3 * 3)) 0 (MiniBoard.occupied_to_playing head) sel;
 		render_m_board tail (i + 1) sel
 	| _								-> ()
 
@@ -65,7 +65,7 @@ let render_selection b sel =
 	Curses.erase () ;
 	begin
 		match b with
-		| Board.Field (lst)			-> render_m_board lst 0 sel
+		| MiniBoard.Field (lst)			-> render_m_board lst 0 sel
 		| _								-> ()
 	end;
 	render_grid ();
@@ -80,7 +80,7 @@ let rec get_selection b ((x, y) as sel) =
 	| 68 when x > 0											-> get_selection b ((x - 1), y)
 	| 66 when y < 8											-> get_selection b (x, (y + 1))
 	| 65 when y > 0											-> get_selection b (x, (y - 1))
-	| 10 when (Board.cellmaster b (x, y)) = Board.Occupied Cellmaster.EMPTY	-> sel
+	| 10 when (MiniBoard.cellmaster b (x, y)) = MiniBoard.Occupied Cellmaster.EMPTY	-> sel
 	| _														-> get_selection b sel
 
 let get_input b = get_selection b (0, 0)
