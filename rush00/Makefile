@@ -13,11 +13,10 @@
 NAME := tic-tac-tic-tac-toe
 
 DIR_OBJ := bin
-SRCS := \
-		Tools.ml Cellmaster.ml Player.ml \
+SRCS := Tools.ml Cellmaster.ml Player.ml \
 		MiniBoard.ml MegaBoard.ml \
 		Graphics.ml AI.ml \
-		Game.ml main.ml
+		Game.ml Main.ml
 DIR_SRC := ./
 
 OBJ_BYT := $(addprefix $(DIR_OBJ)/,$(SRCS:.ml=.cmo))
