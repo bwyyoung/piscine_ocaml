@@ -12,7 +12,7 @@ vogsphere@vogsphere.42.fr:intra/2018/activities/piscine_ocaml_day_03/byoung-w
 
 vogsphere@vogsphere.42.fr:intra/2018/activities/piscine_ocaml_day_04/byoung-w
 
-
+vogsphere@vogsphere.42.fr:intra/2018/activities/piscine_ocaml_rush00/sguillia
 
 	let re = Utils.prompt_string "Restart (n/y)";
 

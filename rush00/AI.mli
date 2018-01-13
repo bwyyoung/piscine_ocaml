@@ -19,14 +19,14 @@ val choose_random_position : MiniBoard.board list -> int * int
 val any_no_coord :
 	int -> int * int * int -> Cellmaster.t * Cellmaster.t * Cellmaster.t -> int * int
 val push_match : 'a list list -> int -> 'a -> 'a list list
-val foreach_movesets :
+val check_movesets :
 	int * int * int ->
 	MiniBoard.board list -> int -> (int * int) list list -> (int * int) list list
-val foreach_movesets_diag :
+val check_movesets_diagonal :
 	int * int * int ->
 	MiniBoard.board list -> int -> (int * int) list list -> (int * int) list list
 val check_movesets :
 	MiniBoard.board list -> int -> (int * int) list list -> (int * int) list list
-val foreach_subboards : MiniBoard.board list -> (int * int) list list
+val check_subboards : MiniBoard.board list -> (int * int) list list
 val get_best_move : MiniBoard.board list -> int * int
 val get_input : MiniBoard.board -> int * int

@@ -50,7 +50,7 @@ let push_match list_moves list_match_index match_coordinates =
 (*1. random move*)
 (*2. Block and intercept player from connecting 3*)
 (*3. if it sees a possible connect 3, do the connection*)
-let foreach_movesets_diag moveset_indexes cell_list subboard_index list_moves =
+let check_movesets_diagonal moveset_indexes cell_list subboard_index list_moves =
 	let moveset_values = MiniBoard.getMovesetValues cell_list moveset_indexes in
 	let (totalvalue_sum_output, np1, totalvalue_sum) = Cellmaster.sumMasters moveset_values in
 	if totalvalue_sum_output = 1 && np1 = 2 then
@@ -85,7 +85,7 @@ let foreach_movesets_diag moveset_indexes cell_list subboard_index list_moves =
  ** cell_list: cell list
  ** subboard_index: subboard index
  ** list_moves: list matches *)
-let foreach_movesets moveset_indexes cell_list subboard_index list_moves =
+let check_movesets moveset_indexes cell_list subboard_index list_moves =
 	let moveset_values = MiniBoard.getMovesetValues cell_list moveset_indexes in
 	let (totalvalue_sum_output, np1, totalvalue_sum) = Cellmaster.sumMasters moveset_values in
 	if totalvalue_sum_output = 1 && np1 = 2 then
@@ -112,7 +112,7 @@ let foreach_movesets moveset_indexes cell_list subboard_index list_moves =
  ** subboard_index: subboard index
  ** list_moves: matches list
  ** moveset_list: moveset list
- ** feach_moveset: foreach_moveset[_diag] function *)
+ ** feach_moveset: check_moveset[_diagonal] function *)
 (*Our AI can also decide possible places to put his marker, based on the player's input*)
 let check_movesets cell_list subboard_index list_moves =
 	let rec callback moveset_list feach_moveset list_moves =
@@ -120,8 +120,8 @@ let check_movesets cell_list subboard_index list_moves =
 	| []							-> list_moves
 	| hdt::tlt						-> callback tlt feach_moveset (feach_moveset hdt cell_list subboard_index list_moves)
 	in
-	let list_moves' = callback moveset1 foreach_movesets list_moves in
-	let list_moves' = callback moveset2 foreach_movesets_diag list_moves' in
+	let list_moves' = callback moveset1 check_movesets list_moves in
+	let list_moves' = callback moveset2 check_movesets_diagonal list_moves' in
 	list_moves'
 
 
@@ -130,7 +130,7 @@ let check_movesets cell_list subboard_index list_moves =
 	** list_moves: matches list
 	** cell_list: cell list*)
 	(*Find out the possible positions our AI can move*)
-	let foreach_subboards subboards_list =
+	let check_subboards subboards_list =
 		let rec callback subboards_list subboard_index_list list_moves =
 			match subboards_list, subboard_index_list with
 			| _, _ when List.length (List.hd list_moves) > 0		-> list_moves
@@ -181,7 +181,7 @@ let choose_random_position subboards_list =
  ** list_moves: list moves *)
  (*Find the best possible move based on current number of moves of player, and AI*)
 let get_best_move subboards_list =
-	let list_moves = foreach_subboards subboards_list in
+	let list_moves = check_subboards subboards_list in
 	let rec callback = function
 	| []											-> choose_random_position subboards_list
 	| hd::moveset_list when List.length hd > 0				-> List.hd hd
