@@ -11,11 +11,8 @@
 (* ************************************************************************** *)
 
 type t = Cellmaster.t * string * Cellmaster.t * string
-
 let new_players name1 name2 = (Cellmaster.P1, name1, Cellmaster.P2, name2)
-
-let next (p1, n1, p2, n2) = (p2, n2, p1, n1)
-
 let type_of_player (c, _, _, _) = c
 let string_of_player (_, name, _, _) = name
 let char_of_player (c, _, _, _) = Cellmaster.char_cellmaster c
+let next (p1, n1, p2, n2) = (p2, n2, p1, n1)
