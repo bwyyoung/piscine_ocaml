@@ -28,9 +28,9 @@ let sbindex = [0; 1; 2; 3; 4; 5; 6; 7; 8]
  ** moveset_values: moveset values*)
 let any_no_coord subboard_index (index_a, index_b, index_c) moveset_values =
 	match moveset_values with
-	| (_, _, Cellmaster.EMPTY)			-> MainBoard.getcell_xy subboard_index index_c
-	| (Cellmaster.EMPTY, _, _)			-> MainBoard.getcell_xy subboard_index index_a
-	| (_, Cellmaster.EMPTY, _)			-> MainBoard.getcell_xy subboard_index index_b
+	| (_, _, Cellmaster.EMPTY)			-> MegaBoard.getcell_xy subboard_index index_c
+	| (Cellmaster.EMPTY, _, _)			-> MegaBoard.getcell_xy subboard_index index_a
+	| (_, Cellmaster.EMPTY, _)			-> MegaBoard.getcell_xy subboard_index index_b
 	| _							-> failwith "Unreachable!!"
 
 (** list_moves: list matches
@@ -158,7 +158,7 @@ let choose_random_subposition (subboards_list, subboard_index) =
 	if len = 0 then
 	failwith "out of bounds!"
 	else
-	MainBoard.getcell_xy subboard_index (Tools.nth cells (Random.int len))
+	MegaBoard.getcell_xy subboard_index (Tools.nth cells (Random.int len))
 
 (*Choose a random position from the grid. the stupidest behaviour*)
 let choose_random_position subboards_list =

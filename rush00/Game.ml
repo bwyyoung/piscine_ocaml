@@ -29,7 +29,7 @@ let rec game_loop board players ((_, print, render) as ui) =
 	print ((Player.string_of_player players) ^ " ("
 		^ (String.make 1 (Player.char_of_player players)) ^ ") play");
 	let move = input_player board players ui in
-	let board = MainBoard.inject_input board move (Player.type_of_player players) in
+	let board = MegaBoard.inject_input board move (Player.type_of_player players) in
 	render board;
 	match board with
 	| Board.Occupied (p)	-> win players p

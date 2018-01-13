@@ -1,7 +1,7 @@
 (* ************************************************************************** *)
 (*                                                                            *)
 (*                                                        :::      ::::::::   *)
-(*   MainBoard.ml                                       :+:      :+:    :+:   *)
+(*   MegaBoard.ml                                       :+:      :+:    :+:   *)
 (*                                                    +:+ +:+         +:+     *)
 (*   By: byoung-w <byoung-w@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
@@ -11,14 +11,14 @@
 (* ************************************************************************** *)
 
 
-(** mainboard: MainBoard *)
+(** mainboard: MegaBoard *)
 let update_state inputowner mainboard =
 	let f = Board.update_state inputowner in
 	match mainboard with
 	| Board.Field l						-> f (Board.Field (List.map f l))
 	| _										-> mainboard
 
-(** mainboard: MainBoard;
+(** mainboard: MegaBoard;
  ** (x, y) Coords (0-8);
  ** Cellmaster: Cellmaster of the board *)
 let inject_input mainboard (x, y) cellmaster =
