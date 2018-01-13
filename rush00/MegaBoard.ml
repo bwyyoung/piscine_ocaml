@@ -57,7 +57,7 @@ let getLineMoveset mainboard sbid lid =
 	| MiniBoard.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 
-let getColMoveset mainboard sbid lid =
+let getColumnMoveset mainboard sbid lid =
 	let rec build_coidt l cid l' =
 	match l with
 	| []							-> l'
@@ -72,7 +72,7 @@ let getColMoveset mainboard sbid lid =
 	| MiniBoard.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Already won"
 
-let getDiagMoveset mainboard sbid did =
+let getDiagonalMoveset mainboard sbid did =
 	let rec build_coidt l cid l' =
 	match l with
 	| []							-> l'
@@ -94,7 +94,7 @@ let getcell_xy sbid cid =
 	((sbid mod 3) * 3 + cid mod 3, (sbid / 3) * 3 + cid / 3)
 
 	
-let getSbMoveset mainboard sbid (v, v', v'') =
+let getSubMoveset mainboard sbid (v, v', v'') =
 	let callback = function
 	| MiniBoard.Field l				->
 		 [List.nth l v; List.nth l v'; List.nth l v'']

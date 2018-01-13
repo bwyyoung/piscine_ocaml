@@ -13,7 +13,7 @@
 val update_state : MiniBoard.board -> MiniBoard.board -> MiniBoard.board
 val inject_input : MiniBoard.board -> int * int -> Cellmaster.t -> MiniBoard.board
 val getLineMoveset : MiniBoard.board -> int -> int -> MiniBoard.board list
-val getColMoveset : MiniBoard.board -> int -> int -> MiniBoard.board list
-val getDiagMoveset : MiniBoard.board -> int -> int -> MiniBoard.board list
+val getColumnMoveset : MiniBoard.board -> int -> int -> MiniBoard.board list
+val getDiagonalMoveset : MiniBoard.board -> int -> int -> MiniBoard.board list
 val getcell_xy : int -> int -> int * int
-val getSbMoveset : MiniBoard.board -> int -> int * int * int -> MiniBoard.board list
+val getSubMoveset : MiniBoard.board -> int -> int * int * int -> MiniBoard.board list
