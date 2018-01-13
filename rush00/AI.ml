@@ -31,7 +31,7 @@ let any_no_coord subboard_index (index_a, index_b, index_c) moveset_values =
 	| (_, _, Cellmaster.EMPTY)			-> MegaBoard.getcell_xy subboard_index index_c
 	| (Cellmaster.EMPTY, _, _)			-> MegaBoard.getcell_xy subboard_index index_a
 	| (_, Cellmaster.EMPTY, _)			-> MegaBoard.getcell_xy subboard_index index_b
-	| _							-> failwith "Unreachable!!"
+	| _							-> failwith "out of bounds!"
 
 (** list_moves: list matches
  ** list_match_index: list matches index
@@ -193,6 +193,6 @@ let get_best_move subboards_list =
 let get_input b =
 	match b with
 	| MiniBoard.Field subboards_list		 -> get_best_move subboards_list
-	| _									 -> failwith "Game is over"
+	| _									 -> failwith "Game Over"
 
 

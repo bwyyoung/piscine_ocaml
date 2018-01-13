@@ -40,7 +40,7 @@ let inject_input mainboard (x, y) cellmaster =
 	| MiniBoard.Field l							->
 	 let mainboard' = MiniBoard.Field (List.mapi map_subboard l) in
 	 update_state (MiniBoard.Occupied cellmaster) mainboard'
-	| _										-> failwith "Already won"
+	| _										-> failwith "Winner"
 
 let getLineMoveset mainboard sbid lid =
 	let rec build_list l cid l' =
@@ -55,7 +55,7 @@ let getLineMoveset mainboard sbid lid =
 	in
 	match mainboard with
 	| MiniBoard.Field l					-> callback (List.nth l sbid)
-	| _								-> failwith "Already won"
+	| _								-> failwith "Winner"
 
 let getColumnMoveset mainboard sbid lid =
 	let rec build_coidt l cid l' =
@@ -70,7 +70,7 @@ let getColumnMoveset mainboard sbid lid =
 	in
 	match mainboard with
 	| MiniBoard.Field l					-> callback (List.nth l sbid)
-	| _								-> failwith "Already won"
+	| _								-> failwith "Winner"
 
 let getDiagonalMoveset mainboard sbid did =
 	let rec build_coidt l cid l' =
@@ -88,7 +88,7 @@ let getDiagonalMoveset mainboard sbid did =
 	in
 	match mainboard with
 	| MiniBoard.Field l					-> callback (List.nth l sbid)
-	| _								-> failwith "Already won"
+	| _								-> failwith "Winner"
 												
 let getcell_xy sbid cid =
 	((sbid mod 3) * 3 + cid mod 3, (sbid / 3) * 3 + cid / 3)
@@ -102,4 +102,4 @@ let getSubMoveset mainboard sbid (v, v', v'') =
 	in
 	match mainboard with
 	| MiniBoard.Field l					-> callback (List.nth l sbid)
-	| _								-> failwith "Already won"
+	| _								-> failwith "Winner"

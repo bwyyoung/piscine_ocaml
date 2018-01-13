@@ -31,7 +31,7 @@ let cellmaster index_b (x, y) =
 	let sbid = x / 3 + y / 3 * 3 in
 	match index_b with
 	| Field l			-> callback (List.nth l sbid)
-	| _					-> failwith "Game is over"
+	| _					-> failwith "Game Over"
 
 (** Converts index_a 'Field board'
  to index_a 'Occupied board' if conditions
