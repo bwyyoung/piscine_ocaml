@@ -11,38 +11,38 @@
 (* ************************************************************************** *)
 
 
-(** mainboard: MegaBoard *)
-let update_state inputowner mainboard =
+(** megaboard: MegaBoard *)
+let update_state inputowner megaboard =
 	let f = MiniBoard.update_state inputowner in
-	match mainboard with
+	match megaboard with
 	| MiniBoard.Field l						-> f (MiniBoard.Field (List.map f l))
-	| _										-> mainboard
+	| _										-> megaboard
 
-(** mainboard: MegaBoard;
+(** megaboard: MegaBoard;
  ** (x, y) Coords (0-8);
  ** Cellmaster: Cellmaster of the board *)
-let inject_input mainboard (x, y) cellmaster =
-	let subboardcellid = x mod 3 + y mod 3 * 3 in
+let inject_input megaboard (x, y) cellmaster =
+	let miniboardcellid = x mod 3 + y mod 3 * 3 in
 	let map_cells i c =
-	if i = subboardcellid then
+	if i = miniboardcellid then
 		MiniBoard.Occupied cellmaster
 	else
 		c
 	in
-	let subboardid = x / 3 + y / 3 * 3 in
-	let map_subboard i sb =
+	let miniboardid = x / 3 + y / 3 * 3 in
+	let map_miniboard i sb =
 	match sb with
-	| MiniBoard.Field l when i = subboardid	->
+	| MiniBoard.Field l when i = miniboardid	->
 		 MiniBoard.Field (List.mapi map_cells l)
 	| _										-> sb
 	in
-	match mainboard with
+	match megaboard with
 	| MiniBoard.Field l							->
-	 let mainboard' = MiniBoard.Field (List.mapi map_subboard l) in
-	 update_state (MiniBoard.Occupied cellmaster) mainboard'
+	 let megaboard' = MiniBoard.Field (List.mapi map_miniboard l) in
+	 update_state (MiniBoard.Occupied cellmaster) megaboard'
 	| _										-> failwith "Winner"
 
-let getLineMoveset mainboard sbid lid =
+let getLineMoveset megaboard sbid lid =
 	let rec build_list l cid l' =
 	match l with
 	| []							-> l'
@@ -53,11 +53,11 @@ let getLineMoveset mainboard sbid lid =
 	| MiniBoard.Field l				-> build_list l 0 []
 	| _								-> []
 	in
-	match mainboard with
+	match megaboard with
 	| MiniBoard.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Winner"
 
-let getColumnMoveset mainboard sbid lid =
+let getColumnMoveset megaboard sbid lid =
 	let rec build_coidt l cid l' =
 	match l with
 	| []							-> l'
@@ -68,11 +68,11 @@ let getColumnMoveset mainboard sbid lid =
 	| MiniBoard.Field l				-> build_coidt l 0 []
 	| _								-> []
 	in
-	match mainboard with
+	match megaboard with
 	| MiniBoard.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Winner"
 
-let getDiagonalMoveset mainboard sbid did =
+let getDiagonalMoveset megaboard sbid did =
 	let rec build_coidt l cid l' =
 	match l with
 	| []							-> l'
@@ -86,7 +86,7 @@ let getDiagonalMoveset mainboard sbid did =
 	| MiniBoard.Field l				-> build_coidt l 0 []
 	| _								-> []
 	in
-	match mainboard with
+	match megaboard with
 	| MiniBoard.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Winner"
 												
@@ -94,12 +94,12 @@ let getcell_xy sbid cid =
 	((sbid mod 3) * 3 + cid mod 3, (sbid / 3) * 3 + cid / 3)
 
 	
-let getSubMoveset mainboard sbid (v, v', v'') =
+let getSubMoveset megaboard sbid (v, v', v'') =
 	let callback = function
 	| MiniBoard.Field l				->
 		 [List.nth l v; List.nth l v'; List.nth l v'']
 	| _								-> []
 	in
-	match mainboard with
+	match megaboard with
 	| MiniBoard.Field l					-> callback (List.nth l sbid)
 	| _								-> failwith "Winner"

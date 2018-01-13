@@ -12,7 +12,7 @@
 
 val moveset1 : (int * int * int) list
 val moveset2 : (int * int * int) list
-val sbindex : int list
+val miniboardindex : int list
 val empty_moves : 'a list list
 val choose_random_subposition : MiniBoard.board list * int -> int * int
 val choose_random_position : MiniBoard.board list -> int * int
@@ -27,6 +27,6 @@ val check_movesets_diagonal :
 	MiniBoard.board list -> int -> (int * int) list list -> (int * int) list list
 val check_movesets :
 	MiniBoard.board list -> int -> (int * int) list list -> (int * int) list list
-val check_subboards : MiniBoard.board list -> (int * int) list list
+val check_miniboards : MiniBoard.board list -> (int * int) list list
 val get_best_move : MiniBoard.board list -> int * int
 val get_input : MiniBoard.board -> int * int
