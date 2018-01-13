@@ -16,7 +16,7 @@ let rec start_game p1 p2 ((init, a, b, c, destroy) as ui) =
 	let winner = Game.start p1 p2 (a, b, c) in
 	destroy ();
 	print_endline ((Player.string_of_player winner) ^ " win the game");
-	let re = Utils.prompt_string "Restart (n/y)" in
+	let re = Tools.prompt_string "Restart (n/y)" in
 	if (re = "n" || re = "N") then
 		()
 	else begin
@@ -38,8 +38,8 @@ let () =
 	print_endline "                                                             ";
 	print_endline "~~~~~~~~~~~~~~~~tic-tac-tic-tac-toe~~~~~~~~~~~~~~~~~~~~";
 	print_endline "Use 'AI' as player name for AI";
-	let p1 = Utils.prompt_line "Player 1" true in
-	let p2 = Utils.prompt_line "Player 2" true in
+	let p1 = Tools.prompt_line "Player 1" true in
+	let p2 = Tools.prompt_line "Player 2" true in
 	if p1 = p2 then
 		print_endline "Error player 1 and 2 have the same name"
 	else

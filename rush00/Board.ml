@@ -81,7 +81,7 @@ let getMovesetValues cell_list (index_a, index_b, index_c) =
 	| _::tll, _									-> callback tll moveset_index_list (ci + 1)
 	in
 	let vl = callback cell_list [index_a; index_b; index_c] 0 in
-	(Utils.nth vl 0, Utils.nth vl 1, Utils.nth vl 2)
+	(Tools.nth vl 0, Tools.nth vl 1, Tools.nth vl 2)
 
 let occupied_to_playing o =
 	match o with

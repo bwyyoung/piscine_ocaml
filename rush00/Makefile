@@ -12,63 +12,63 @@
 
 NAME := tic-tac-tic-tac-toe
 
-OBJS_DIR := bin
-SRCS_DIR := ./
-
-FLAGS := -I $(OBJS_DIR) -I ~/.opam/system/lib/curses
-LIBS := -cclib -L$$HOME/.opam/system/lib/curses
-
+DIR_OBJ := bin
 SRCS := \
-		Utils.ml Cellmaster.ml Player.ml \
+		Tools.ml Cellmaster.ml Player.ml \
 		Board.ml MainBoard.ml \
 		Graphics.ml AI.ml \
 		Game.ml main.ml
+DIR_SRC := ./
 
-BYT_OBJS := $(addprefix $(OBJS_DIR)/,$(SRCS:.ml=.cmo))
-OPT_OBJS := $(addprefix $(OBJS_DIR)/,$(SRCS:.ml=.cmx))
-INC_OBJS := $(addprefix $(OBJS_DIR)/,$(SRCS:.ml=.cmi))
+OBJ_BYT := $(addprefix $(DIR_OBJ)/,$(SRCS:.ml=.cmo))
+OBJ_OPT := $(addprefix $(DIR_OBJ)/,$(SRCS:.ml=.cmx))
+OBJ_INC := $(addprefix $(DIR_OBJ)/,$(SRCS:.ml=.cmi))
 
-all: $(OBJS_DIR) $(NAME)
 
-$(NAME): $(OBJS_DIR)/$(NAME).byt $(OBJS_DIR)/$(NAME).opt
-	@ln -sf $(OBJS_DIR)/$(NAME).opt $@
+FLAGS := -I $(DIR_OBJ) -I ~/.opam/system/lib/curses
+LIBS := -cclib -L$$HOME/.opam/system/lib/curses
+
+all: $(DIR_OBJ) $(NAME)
+
+$(NAME): $(DIR_OBJ)/$(NAME).byt $(DIR_OBJ)/$(NAME).opt
+	@ln -sf $(DIR_OBJ)/$(NAME).opt $@
 	@echo "Done"
 
-byt: $(OBJS_DIR)/$(NAME).byt
-$(OBJS_DIR)/$(NAME).byt: $(INC_OBJS) $(BYT_OBJS)
-	@ocamlc $(LIBS) -g -o $@ ~/.opam/system/lib/curses/curses.cma $(BYT_OBJS)
-	@ln -sf $(OBJS_DIR)/$(NAME).byt $(NAME)
+byt: $(DIR_OBJ)/$(NAME).byt
+$(DIR_OBJ)/$(NAME).byt: $(OBJ_INC) $(OBJ_BYT)
+	@ocamlc $(LIBS) -g -o $@ ~/.opam/system/lib/curses/curses.cma $(OBJ_BYT)
+	@ln -sf $(DIR_OBJ)/$(NAME).byt $(NAME)
 	@echo "$@"
 
-opt: $(OBJS_DIR)/$(NAME).opt
-$(OBJS_DIR)/$(NAME).opt: $(INC_OBJS) $(OPT_OBJS)
-	@ocamlopt $(LIBS) -o $@ ~/.opam/system/lib/curses/curses.cmxa $(OPT_OBJS)
-	@ln -sf $(OBJS_DIR)/$(NAME).opt $(NAME)
+opt: $(DIR_OBJ)/$(NAME).opt
+$(DIR_OBJ)/$(NAME).opt: $(OBJ_INC) $(OBJ_OPT)
+	@ocamlopt $(LIBS) -o $@ ~/.opam/system/lib/curses/curses.cmxa $(OBJ_OPT)
+	@ln -sf $(DIR_OBJ)/$(NAME).opt $(NAME)
 	@echo "$@"
 
 .depend: Makefile
-	@ocamldep -I $(SRCS_DIR) $(addprefix $(SRCS_DIR)/,$(SRCS)) | sed -E 's/$(SRCS_DIR)/$(OBJS_DIR)/g' > .depend
+	@ocamldep -I $(DIR_SRC) $(addprefix $(DIR_SRC)/,$(SRCS)) | sed -E 's/$(DIR_SRC)/$(DIR_OBJ)/g' > .depend
 
-$(BYT_OBJS): $(OBJS_DIR)/%.cmo: $(SRCS_DIR)/%.ml
+$(OBJ_BYT): $(DIR_OBJ)/%.cmo: $(DIR_SRC)/%.ml
 	@ocamlc -g $(FLAGS) -o $@ -c $<
 	@echo "$<"
 
-$(OPT_OBJS): $(OBJS_DIR)/%.cmx: $(SRCS_DIR)/%.ml
+$(OBJ_OPT): $(DIR_OBJ)/%.cmx: $(DIR_SRC)/%.ml
 	@ocamlopt $(FLAGS) -o $@ -c $<
 	@echo "$<"
 
-$(INC_OBJS): $(OBJS_DIR)/%.cmi: $(SRCS_DIR)/%.mli
-	@ocamlopt -I $(OBJS_DIR) -o $@ -c $<
+$(OBJ_INC): $(DIR_OBJ)/%.cmi: $(DIR_SRC)/%.mli
+	@ocamlopt -I $(DIR_OBJ) -o $@ -c $<
 	@echo "$<"
 
-$(OBJS_DIR):
+$(DIR_OBJ):
 	@mkdir -p $@
 
 clean:
-	@rm -f $(BYT_OBJS) $(OPT_OBJS) $(INC_OBJS)
+	@rm -f $(OBJ_BYT) $(OBJ_OPT) $(OBJ_INC)
 
 fclean: clean
-	@rm -f $(NAME) $(OBJS_DIR)/$(NAME).opt $(OBJS_DIR)/$(NAME).byt
+	@rm -f $(NAME) $(DIR_OBJ)/$(NAME).opt $(DIR_OBJ)/$(NAME).byt
 
 re: fclean all
 

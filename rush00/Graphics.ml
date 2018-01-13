@@ -10,12 +10,14 @@
 (*                                                                            *)
 (* ************************************************************************** *)
 
-let cell_width = 6
-let cell_height = 2
+(*The width of our game cell, for 1 game piece*)
+let cell_w = 6
+(*The height of our game cell, for 1 game piece*)
+let cell_h = 2
 
 let add_player (board_x, board_y) i o (x_sel, y_sel) =
 	let x', y' = (i mod 3 + board_x), (i / 3 + board_y) in
-	let x'', y'' = (x' * cell_width), (y' * cell_height) in
+	let x'', y'' = (x' * cell_w), (y' * cell_h) in
 	if x_sel = x' && y_sel = y' then begin
 		Curses.attron (Curses.A.color_pair 12);
 		ignore (Curses.mvaddch y'' x'' (int_of_char o));
@@ -53,11 +55,11 @@ let rec render_m_board b i sel =
 	| _								-> ()
 
 let render_grid () =
-	let padding_x, padding_y = cell_width / 2, cell_height / 2 in
-	Curses.mvvline 0 (3 * cell_width - padding_x) (int_of_char '|') (9 * cell_height - padding_y);
-	Curses.mvvline 0 (6 * cell_width - padding_x) (int_of_char '|') (9 * cell_height - padding_y);
-	Curses.mvhline (3 * cell_height - padding_y) 0 (int_of_char '-') (9 * cell_width - padding_x);
-	Curses.mvhline (6 * cell_height - padding_y) 0 (int_of_char '-') (9 * cell_width - padding_x)
+	let padding_x, padding_y = cell_w / 2, cell_h / 2 in
+	Curses.mvvline 0 (3 * cell_w - padding_x) (int_of_char '|') (9 * cell_h - padding_y);
+	Curses.mvvline 0 (6 * cell_w - padding_x) (int_of_char '|') (9 * cell_h - padding_y);
+	Curses.mvhline (3 * cell_h - padding_y) 0 (int_of_char '-') (9 * cell_w - padding_x);
+	Curses.mvhline (6 * cell_h - padding_y) 0 (int_of_char '-') (9 * cell_w - padding_x)
 
 let render_selection b sel =
 	Curses.erase () ;
