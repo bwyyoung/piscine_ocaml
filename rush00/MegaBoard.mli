@@ -16,4 +16,4 @@ val getLineMoveset : MiniBoard.board -> int -> int -> MiniBoard.board list
 val getColumnMoveset : MiniBoard.board -> int -> int -> MiniBoard.board list
 val getDiagonalMoveset : MiniBoard.board -> int -> int -> MiniBoard.board list
 val getcell_xy : int -> int -> int * int
-val getSubMoveset : MiniBoard.board -> int -> int * int * int -> MiniBoard.board list
+val getMiniMoveset : MiniBoard.board -> int -> int * int * int -> MiniBoard.board list

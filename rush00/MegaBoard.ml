@@ -94,7 +94,7 @@ let getcell_xy sbid cid =
 	((sbid mod 3) * 3 + cid mod 3, (sbid / 3) * 3 + cid / 3)
 
 	
-let getSubMoveset megaboard sbid (v, v', v'') =
+let getMiniMoveset megaboard sbid (v, v', v'') =
 	let callback = function
 	| MiniBoard.Field l				->
 		 [List.nth l v; List.nth l v'; List.nth l v'']
